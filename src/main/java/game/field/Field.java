@@ -28,4 +28,8 @@ public class Field {
             numbers.remove(numbers.size() - 1);
         }
     }
+
+    public boolean isEmpty() {
+        return numbers.isEmpty();
+    }
 }
