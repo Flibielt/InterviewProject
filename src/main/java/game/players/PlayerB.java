@@ -9,7 +9,7 @@ public class PlayerB {
     public PlayerB() {
         reply = 0;
     }
-    
+
     private void chooseNumbers() {
         if (terminals[0] < terminals[1]) {
             score += terminals[0];
