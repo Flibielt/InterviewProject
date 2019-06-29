@@ -21,7 +21,6 @@ public class PlayerB {
         } else {
             reply = 1;
         }
-
         if (elements.contains(terminals[reply])) {
             if (elements.contains(terminals[Math.abs(reply - 1)])) {
                 reply = -1;

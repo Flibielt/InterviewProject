@@ -39,6 +39,9 @@ public class Controller {
 
     private void deleteFieldElement(int position) {
         field.deleteElement(position == 0);
+        if (isFieldEmpty()) {
+            gameCanContinue = false;
+        }
     }
 
     public boolean canGameContinue() {
@@ -46,6 +49,7 @@ public class Controller {
     }
 
     public void nextRound(boolean bStart) {
+        int[] terminals = field.getTerminals();
         if (bStart) {
             playerBStep();
             playerAStep();
@@ -53,15 +57,24 @@ public class Controller {
             playerAStep();
             playerBStep();
         }
+
+        if (!isFieldEmpty()) {
+            if (terminals[0] == field.getTerminals()[0]) {
+                if (terminals[1] == field.getTerminals()[1]) {
+                    deleteFieldElement(0);
+                    if (!isFieldEmpty()) {
+                        deleteFieldElement(1);
+                    }
+                }
+            }
+        }
     }
 
     private void playerAStep() {
         if (gameCanContinue) {
             sendTerminals();
             int reply = playerA.getReply();
-            if (reply == -1) {
-                gameCanContinue = false;
-            } else {
+            if (reply != -1) {
                 deleteFieldElement(reply);
             }
         }
@@ -71,9 +84,7 @@ public class Controller {
         if (gameCanContinue) {
             sendTerminals();
             int reply = playerB.getReply();
-            if (reply == -1) {
-                gameCanContinue = false;
-            } else {
+            if (reply != -1) {
                 deleteFieldElement(reply);
             }
         }
@@ -96,7 +107,7 @@ public class Controller {
         System.out.println("Draw: " + results[1]);
         System.out.println("PlayerB wins: " + results[2]);
         double percentage = ((double)results[2] / ((double)results[0] + (double)results[1] + (double)results[2])) * 100;
-        System.out.println("PlayerB wins: " + percentage);
+        System.out.println("PlayerB wins: " + percentage + "%");
     }
 
     public static void main(String[] args) {
