@@ -14,7 +14,7 @@ public class Controller {
     private int[] results;
     private boolean gameCanContinue;
 
-    private Controller() {
+    public Controller() {
         field = new Field();
         playerA = new PlayerA();
         playerB = new PlayerB();
@@ -108,6 +108,35 @@ public class Controller {
         System.out.println("PlayerB wins: " + results[2]);
         double percentage = ((double)results[2] / ((double)results[0] + (double)results[1] + (double)results[2])) * 100;
         System.out.println("PlayerB wins: " + percentage + "%");
+    }
+
+    public int getBVictories() {
+        return results[2];
+    }
+
+    public int getBLoses() {
+        return results[0];
+    }
+
+    public int getDrawes() {
+        return results[1];
+    }
+
+    public void startSimulation() {
+        boolean bStart;
+        Random rand = new Random();
+
+        for (int i = 0; i < 1000; i++) {
+            newGame();
+            bStart = rand.nextBoolean();
+
+            while (!isFieldEmpty() && canGameContinue()) {
+                nextRound(bStart);
+            }
+            analyzeMatch();
+        }
+
+        writeResults();
     }
 
     public static void main(String[] args) {
