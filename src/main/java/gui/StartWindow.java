@@ -30,14 +30,22 @@ public class StartWindow extends Application {
         startButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
+                showLoadingScene(stage);
                 controller.startSimulation();
                 setStatistic(stage);
             }
         });
         vBox.getChildren().add(startButton);
 
-        stage.setScene(new Scene(vBox, 200, 400));
+        stage.setScene(new Scene(vBox, 300, 400));
         stage.show();
+    }
+
+    private void showLoadingScene(Stage stage) {
+        VBox vBox = new VBox();
+        Text text = new Text("Loading...");
+        vBox.getChildren().add(text);
+        stage.setScene(new Scene(vBox, 300, 400));
     }
 
     private void setStatistic(Stage stage) {
@@ -46,9 +54,11 @@ public class StartWindow extends Application {
         vBox.setSpacing(15);
         HBox[] milestones = new HBox[6];
         Text[][] matches = new Text[6][2];
+        long[] times = controller.getTimes();
+
         for (int i = 0; i < 6; i++) {
-            matches[i][0] = new Text((int)Math.pow(10, i + 1) + ".: ");
-            matches[i][1] = new Text();
+            matches[i][0] = new Text((int)Math.pow(10, i + 1) + ".:");
+            matches[i][1] = new Text(String.valueOf(times[i]));
             milestones[i] = new HBox();
             milestones[i].setAlignment(Pos.CENTER);
             milestones[i].setSpacing(15);
@@ -64,10 +74,11 @@ public class StartWindow extends Application {
         for (int i = 0; i < 3; i++) {
             stat[i] = new Text();
         }
-        stat[0].setText("B win:" );
-        stat[1].setText("Draw: ");
-        stat[2].setText("B lose: ");
+        stat[0].setText("Win:" + controller.getBVictories());
+        stat[1].setText("Draw: " + controller.getDrawes());
+        stat[2].setText("Lose: " + controller.getBLoses());
+        statistic.getChildren().addAll(stat[0], stat[1], stat[2]);
         vBox.getChildren().addAll(statisticsTitle, statistic);
-        stage.setScene(new Scene(vBox, 200, 400));
+        stage.setScene(new Scene(vBox, 300, 400));
     }
 }

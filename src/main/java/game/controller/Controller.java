@@ -13,6 +13,8 @@ public class Controller {
     private PlayerB playerB;
     private int[] results;
     private boolean gameCanContinue;
+    private long startTime;
+    private long[] times;
 
     public Controller() {
         field = new Field();
@@ -123,20 +125,41 @@ public class Controller {
     }
 
     public void startSimulation() {
+        startTime = System.currentTimeMillis();
+        times = new long[6];
+        long time;
         boolean bStart;
         Random rand = new Random();
 
-        for (int i = 0; i < 1000; i++) {
+        for (int i = 0; i < 1000000; i++) {
             newGame();
             bStart = rand.nextBoolean();
 
             while (!isFieldEmpty() && canGameContinue()) {
                 nextRound(bStart);
             }
+            time = System.currentTimeMillis();
+            if (i == 10) {
+                times[0] = time - startTime;
+            } else if (i == 100 - 1) {
+                times[1] = time - startTime;
+            } else if (i == 1000 - 1) {
+                times[2] = time - startTime;
+            } else if (i == 10000 -1 ) {
+                times[3] = time -startTime;
+            } else if (i == 100000 - 1) {
+                times[4] = time - startTime;
+            } else if (i == 1000000- 1) {
+                times[5] = time - startTime;
+            }
             analyzeMatch();
         }
 
         writeResults();
+    }
+
+    public long[] getTimes() {
+        return times;
     }
 
     public static void main(String[] args) {
