@@ -1,22 +1,38 @@
 package game.players;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class PlayerB {
 
+    private List<Integer> elements;
     private int score;
     private int[] terminals;
     private int reply;
 
     public PlayerB() {
+        elements = new ArrayList<Integer>();
         reply = 0;
     }
 
     private void chooseNumbers() {
-        if (terminals[0] < terminals[1]) {
-            score += terminals[0];
+        if (terminals[0] > terminals[1]) {
             reply = 0;
         } else {
-            score += terminals[1];
             reply = 1;
+        }
+
+        if (elements.contains(terminals[reply])) {
+            if (elements.contains(terminals[Math.abs(reply - 1)])) {
+                reply = -1;
+            } else {
+                reply = Math.abs(reply - 1);
+                score += terminals[reply];
+                elements.add(terminals[reply]);
+            }
+        } else {
+            score += terminals[reply];
+            elements.add(terminals[reply]);
         }
     }
 
@@ -31,5 +47,10 @@ public class PlayerB {
 
     public int getScore() {
         return score;
+    }
+
+    public void newMatch() {
+        score = 0;
+        elements.clear();
     }
 }

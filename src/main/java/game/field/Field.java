@@ -2,16 +2,22 @@ package game.field;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ThreadLocalRandom;
+import java.util.Random;
 
 public class Field {
 
     private List<Integer> numbers = new ArrayList<Integer>();
 
-    public void createSequence() {
+    private void createSequence() {
+        Random rand = new Random();
         for (int i = 0; i < 1000; i++) {
-            numbers.add(ThreadLocalRandom.current().nextInt(1, 10000));
+            numbers.add(rand.nextInt(9998) + 1);
         }
+    }
+
+    public void newSequence() {
+        numbers.clear();
+        createSequence();
     }
 
     public int[] getTerminals() {
