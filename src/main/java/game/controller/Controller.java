@@ -162,21 +162,4 @@ public class Controller {
         return times;
     }
 
-    public static void main(String[] args) {
-        Controller controller = new Controller();
-        boolean bStart;
-        Random rand = new Random();
-
-        for (int i = 0; i < 1000; i++) {
-            controller.newGame();
-            bStart = rand.nextBoolean();
-
-            while (!controller.isFieldEmpty() && controller.canGameContinue()) {
-                controller.nextRound(bStart);
-            }
-            controller.analyzeMatch();
-        }
-
-        controller.writeResults();
-    }
 }

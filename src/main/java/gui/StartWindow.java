@@ -31,11 +31,11 @@ public class StartWindow extends Application {
             @Override
             public void handle(ActionEvent actionEvent) {
                 showLoadingScene(stage);
-                controller.startSimulation();
                 setStatistic(stage);
             }
         });
-        vBox.getChildren().add(startButton);
+        Text duration = new Text("Might take a while");
+        vBox.getChildren().addAll(startButton, duration);
 
         stage.setScene(new Scene(vBox, 300, 400));
         stage.show();
@@ -49,6 +49,7 @@ public class StartWindow extends Application {
     }
 
     private void setStatistic(Stage stage) {
+        controller.startSimulation();
         VBox vBox = new VBox();
         vBox.setAlignment(Pos.CENTER);
         vBox.setSpacing(15);
@@ -58,7 +59,7 @@ public class StartWindow extends Application {
 
         for (int i = 0; i < 6; i++) {
             matches[i][0] = new Text((int)Math.pow(10, i + 1) + ".:");
-            matches[i][1] = new Text(String.valueOf(times[i]));
+            matches[i][1] = new Text(times[i] + "ms");
             milestones[i] = new HBox();
             milestones[i].setAlignment(Pos.CENTER);
             milestones[i].setSpacing(15);
@@ -74,11 +75,13 @@ public class StartWindow extends Application {
         for (int i = 0; i < 3; i++) {
             stat[i] = new Text();
         }
-        stat[0].setText("Win:" + controller.getBVictories());
+        stat[0].setText("Win: " + controller.getBVictories());
         stat[1].setText("Draw: " + controller.getDrawes());
         stat[2].setText("Lose: " + controller.getBLoses());
         statistic.getChildren().addAll(stat[0], stat[1], stat[2]);
-        vBox.getChildren().addAll(statisticsTitle, statistic);
+        double percentage = ((double)controller.getBVictories() / ((double)1000000)) * 100;
+        Text percentageText = new Text("PlayerB win: " + percentage + "%");
+        vBox.getChildren().addAll(statisticsTitle, statistic, percentageText);
         stage.setScene(new Scene(vBox, 300, 400));
     }
 }
