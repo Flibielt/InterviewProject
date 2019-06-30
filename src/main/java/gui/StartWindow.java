@@ -12,10 +12,22 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
+/**
+ * The start window.
+ */
 public class StartWindow extends Application {
 
+    /**
+     * The controller of the game.
+     */
     private Controller controller;
 
+    /**
+     * Creates the start window.
+     *
+     * @param stage the current stage
+     * @throws Exception if something goes wrong
+     */
     @Override
     public void start(Stage stage) throws Exception {
         controller = new Controller();
@@ -30,7 +42,6 @@ public class StartWindow extends Application {
         startButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
-                showLoadingScene(stage);
                 setStatistic(stage);
             }
         });
@@ -41,13 +52,11 @@ public class StartWindow extends Application {
         stage.show();
     }
 
-    private void showLoadingScene(Stage stage) {
-        VBox vBox = new VBox();
-        Text text = new Text("Loading...");
-        vBox.getChildren().add(text);
-        stage.setScene(new Scene(vBox, 300, 400));
-    }
-
+    /**
+     * Gives the statistic of the game.
+     *
+     * @param stage the current stage
+     */
     private void setStatistic(Stage stage) {
         controller.startSimulation();
         VBox vBox = new VBox();
@@ -76,7 +85,7 @@ public class StartWindow extends Application {
             stat[i] = new Text();
         }
         stat[0].setText("Win: " + controller.getBVictories());
-        stat[1].setText("Draw: " + controller.getDrawes());
+        stat[1].setText("Draw: " + controller.getDraws());
         stat[2].setText("Lose: " + controller.getBLoses());
         statistic.getChildren().addAll(stat[0], stat[1], stat[2]);
         double percentage = ((double)controller.getBVictories() / ((double)1000000)) * 100;
